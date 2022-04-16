@@ -1,4 +1,4 @@
-package Exceptions;
+package com.andycodez.statistics.exceptions;
 
 public class WeatherEntryNotFoundException extends RuntimeException {
 

@@ -1,4 +1,7 @@
-import Exceptions.WeatherEntryNotFoundException;
+package com.andycodez.statistics;
+
+import com.andycodez.statistics.data.WeatherEntry;
+import com.andycodez.statistics.exceptions.WeatherEntryNotFoundException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -51,7 +54,7 @@ public class StatisticsApp {
     }
 
     private float getPressureAt(LocalDateTime localDateTime, ArrayList<WeatherEntry> weatherEntries) {
-        WeatherEntry  weatherEntry = searchForEntry(localDateTime,weatherEntries);
+        WeatherEntry weatherEntry = searchForEntry(localDateTime,weatherEntries);
         return weatherEntry.getBarometricPressure();
     }
 
@@ -86,7 +89,7 @@ public class StatisticsApp {
         ArrayList<WeatherEntry> tempDataStore = new ArrayList<>();
 
         for(String year: years) {
-            String filepath = "/${absolutePath}/Environmental_Data_Deep_Moor_" + year + ".txt";
+            String filepath = "src/main/java/resources/Environmental_Data_Deep_Moor_" + year + ".txt";
 
             File file = new File(filepath);
             Scanner scanner = new Scanner(file);

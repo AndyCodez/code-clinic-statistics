@@ -1,3 +1,5 @@
+package com.andycodez.statistics.data;
+
 import java.time.LocalDateTime;
 
 public class WeatherEntry {
