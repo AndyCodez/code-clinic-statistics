@@ -22,7 +22,7 @@ public class StatisticsApp {
             return;
         }
 
-        ArrayList<WeatherEntry> weatherEntries = new ArrayList<>();
+        ArrayList<WeatherEntry> weatherEntries;
 
         try {
             weatherEntries = statisticsApp.loadWeatherEntriesIntoTempStore(startDateTime, endDateTime);
