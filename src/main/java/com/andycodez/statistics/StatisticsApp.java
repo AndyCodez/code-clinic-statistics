@@ -22,12 +22,13 @@ public class StatisticsApp {
             return;
         }
 
-        ArrayList<WeatherEntry> weatherEntries;
+        ArrayList<WeatherEntry> weatherEntries = new ArrayList<>();
 
         try {
             weatherEntries = statisticsApp.loadWeatherEntriesIntoTempStore(startDateTime, endDateTime);
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            System.out.println("Unable to read file: " + e.getLocalizedMessage());
+            return;
         }
 
         var startTimePressure = statisticsApp.getPressureAt(startDateTime, weatherEntries);
@@ -39,22 +40,29 @@ public class StatisticsApp {
     private static void displayOutput(float startTimePressure, float endTimePressure) {
         System.out.println("endTimePressure: " + endTimePressure);
         System.out.println("startTimePressure: " + startTimePressure);
+        System.out.println("\r");
 
         if ((endTimePressure - startTimePressure) > 0) {
-            System.out.println("Fair and sunny");
+            System.out.println("Forecast: Fair and sunny");
         }
 
         if ((endTimePressure - startTimePressure) == 0) {
-            System.out.println("Same conditions");
+            System.out.println("Forecast: Same conditions");
         }
 
         if ((endTimePressure - startTimePressure) < 0) {
-            System.out.println("Stormy weather");
+            System.out.println("Forecast: Stormy weather");
         }
     }
 
     private float getPressureAt(LocalDateTime localDateTime, ArrayList<WeatherEntry> weatherEntries) {
-        WeatherEntry weatherEntry = searchForEntry(localDateTime,weatherEntries);
+        WeatherEntry weatherEntry = new WeatherEntry();
+        try {
+            weatherEntry = searchForEntry(localDateTime,weatherEntries);
+        } catch (WeatherEntryNotFoundException e) {
+            System.out.println(e.getLocalizedMessage());
+            System.exit(0);
+        }
         return weatherEntry.getBarometricPressure();
     }
 
@@ -93,11 +101,11 @@ public class StatisticsApp {
 
             File file = new File(filepath);
             Scanner scanner = new Scanner(file);
+            // Ignore header
+            scanner.nextLine();
 
             System.out.println("Loading data for year " + year + " ...");
 
-            // Ignore header
-            scanner.nextLine();
 
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();
@@ -116,6 +124,7 @@ public class StatisticsApp {
 
             scanner.close();
             System.out.println("Finished loading data for year " + year + ".");
+            System.out.println("\r");
         }
         return tempDataStore;
     }
