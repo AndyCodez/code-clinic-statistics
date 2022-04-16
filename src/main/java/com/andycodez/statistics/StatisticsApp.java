@@ -17,6 +17,10 @@ public class StatisticsApp {
         LocalDateTime startDateTime = LocalDateTime.of(2012, 01, 01, 00, 46,01);
         LocalDateTime endDateTime = LocalDateTime.of(2015, 06, 04, 01, 9,21);
 
+        getForecast(statisticsApp, startDateTime, endDateTime);
+    }
+
+    private static void getForecast(StatisticsApp statisticsApp, LocalDateTime startDateTime, LocalDateTime endDateTime) {
         if (startDateTime.compareTo(endDateTime) >= 0) {
             System.out.println("Beginning time cannot be after end time");
             return;
@@ -31,8 +35,8 @@ public class StatisticsApp {
             return;
         }
 
-        var startTimePressure = statisticsApp.getPressureAt(startDateTime, weatherEntries);
-        var endTimePressure = statisticsApp.getPressureAt(endDateTime, weatherEntries);
+        var startTimePressure = getPressureAt(startDateTime, weatherEntries);
+        var endTimePressure = getPressureAt(endDateTime, weatherEntries);
 
         displayOutput(startTimePressure, endTimePressure);
     }
@@ -55,7 +59,7 @@ public class StatisticsApp {
         }
     }
 
-    private float getPressureAt(LocalDateTime localDateTime, ArrayList<WeatherEntry> weatherEntries) {
+    private static float getPressureAt(LocalDateTime localDateTime, ArrayList<WeatherEntry> weatherEntries) {
         WeatherEntry weatherEntry = new WeatherEntry();
         try {
             weatherEntry = searchForEntry(localDateTime,weatherEntries);
@@ -66,7 +70,7 @@ public class StatisticsApp {
         return weatherEntry.getBarometricPressure();
     }
 
-    private WeatherEntry searchForEntry(LocalDateTime targetDateTime, ArrayList<WeatherEntry> weatherEntries) {
+    private static WeatherEntry searchForEntry(LocalDateTime targetDateTime, ArrayList<WeatherEntry> weatherEntries) {
         var lowIdx = 0;
         var upperIdx = weatherEntries.size() - 1;
 
